@@ -2,11 +2,7 @@ import { mount } from '@vue/test-utils'
 import { expect, it, describe, beforeEach } from 'vitest'
 import Card from '@/components/Card.vue'
 import Target from '@/components/Target.vue'
-import List from '@/components/List.vue'
-import { createApp, h } from 'vue'
-import { template } from 'lodash'
 import { vi } from 'vitest'
-import { setActivePinia, createPinia } from 'pinia'
 import { useCommonStore } from '@/store/common'
 import { createTestingPinia } from '@pinia/testing'
 import App from '@/App.vue'
@@ -17,7 +13,6 @@ describe('common', () => {
       global: {
         plugins: [
           createTestingPinia({
-            //stubActions: false,
             createSpy: vi.fn,
             initialState: {
               common: {
@@ -39,7 +34,7 @@ describe('common', () => {
         ],
       },
     })
-
+    const commonStore = useCommonStore()
     const cards = wrapper.findAllComponents(Card)
     const targets = wrapper.findAllComponents(Target)
 
@@ -67,5 +62,7 @@ describe('common', () => {
     expect(targets[0].classes()).toContain('target_success')
     expect(targets[0].classes()).not.toContain('target_error')
     await targets[0].trigger('drop')
+
+    expect(commonStore.isFinished).toBe(true)
   })
 })

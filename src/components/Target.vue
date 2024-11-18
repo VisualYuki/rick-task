@@ -43,13 +43,14 @@ const methods = {
       if (targetCharacter) {
         targetCharacter.completed = true
       }
+    } else {
+      methods.handleDragLeave()
     }
   },
   handleDragOver(event: DragEvent) {
     event.preventDefault()
   },
   handleDragEnter(event: DragEvent) {
-    debugger
     if (+commonStore.dragStartCharacterId === props.id) {
       state.isError = false
       state.isSuccess = true
@@ -58,7 +59,7 @@ const methods = {
       state.isSuccess = false
     }
   },
-  handleDragLeave(event: DragEvent) {
+  handleDragLeave() {
     state.isError = false
     state.isSuccess = false
   },

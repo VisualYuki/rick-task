@@ -31,7 +31,11 @@ const state = reactive({
 const commonStore = useCommonStore()
 
 const methods = {
-  handleDrop(event: DragEvent) {
+  resetState() {
+    state.isError = false
+    state.isSuccess = false
+  },
+  handleDrop() {
     if (state.isSuccess) {
       let cardCharacter = find(commonStore.cardCharacters, ['id', props.id])
       let targetCharacter = find(commonStore.targetCharacters, ['id', props.id])
@@ -44,13 +48,13 @@ const methods = {
         targetCharacter.completed = true
       }
     } else {
-      methods.handleDragLeave()
+      methods.resetState()
     }
   },
   handleDragOver(event: DragEvent) {
     event.preventDefault()
   },
-  handleDragEnter(event: DragEvent) {
+  handleDragEnter() {
     if (+commonStore.dragStartCharacterId === props.id) {
       state.isError = false
       state.isSuccess = true
@@ -60,8 +64,7 @@ const methods = {
     }
   },
   handleDragLeave() {
-    state.isError = false
-    state.isSuccess = false
+    methods.resetState()
   },
 }
 </script>

@@ -1,13 +1,14 @@
 import { makeFetch } from '@/utils'
 import { defineStore } from 'pinia'
 import { random } from 'lodash'
+import type { Character, CharacterState } from '@/types'
 
 export const useCommonStore = defineStore('common', {
   state: () => {
     return {
-      characterApiData: [] as { id: number; name: string; image: string; episode: string[] }[],
-      cardCharacters: [] as { id: number; completed: boolean }[],
-      targetCharacters: [] as { id: number; completed: boolean }[],
+      characterApiData: [] as Character[],
+      cardCharacters: [] as CharacterState[],
+      targetCharacters: [] as CharacterState[],
       cardCount: 4,
       dragStartCharacterId: -1,
     }

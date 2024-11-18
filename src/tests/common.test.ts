@@ -6,10 +6,15 @@ import { vi } from 'vitest'
 import { useCommonStore } from '@/store/common'
 import { createTestingPinia } from '@pinia/testing'
 import App from '@/App.vue'
+import Game from '@/views/Game.vue'
+
+let wrapper = undefined
+let cards = undefined
+let targets = undefined
 
 describe('common', () => {
-  it('default', async () => {
-    let wrapper = mount(App, {
+  beforeEach(() => {
+    wrapper = mount(Game, {
       global: {
         plugins: [
           createTestingPinia({
@@ -34,10 +39,12 @@ describe('common', () => {
         ],
       },
     })
-    const commonStore = useCommonStore()
-    const cards = wrapper.findAllComponents(Card)
-    const targets = wrapper.findAllComponents(Target)
 
+    cards = wrapper.findAllComponents(Card)
+    targets = wrapper.findAllComponents(Target)
+  })
+
+  it('error draggable', async () => {
     await cards[0].trigger('dragstart')
     await targets[0].trigger('dragenter')
 
@@ -48,6 +55,10 @@ describe('common', () => {
 
     expect(targets[0].classes()).not.toContain('target_error')
     expect(targets[0].classes()).not.toContain('target_success')
+  })
+
+  it('completed game', async () => {
+    const commonStore = useCommonStore()
 
     await cards[0].trigger('dragstart')
     await targets[1].trigger('dragenter')

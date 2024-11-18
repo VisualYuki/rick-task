@@ -15,9 +15,9 @@ export const useCommonStore = defineStore('common', {
   },
   actions: {
     initData() {
-      ;`https://rickandmortyapi.com/api/character/${random(800)},${random(800)},${random(800)},${random(800)}`
-
-      makeFetch(`https://rickandmortyapi.com/api/character/1,2,3,4`).then((response) => {
+      makeFetch(
+        `https://rickandmortyapi.com/api/character/${random(800)},${random(800)},${random(800)},${random(800)}`,
+      ).then((response) => {
         this.characterApiData = response
 
         this.cardCharacters = this.characterApiData.map((item: Record<string, any>) => {
